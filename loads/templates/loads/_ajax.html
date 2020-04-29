@@ -1,0 +1,29 @@
+{% load static %}
+<!doctype HTML>
+<html>
+<head>
+<title>Inventory</title>
+<link rel="stylesheet" type="text/css" href="{% static 'spltcs/main.css' %}">
+</head>
+<body>
+{% block content %}
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+
+function closeMe( iframeId ) {
+    var iframe = window.parent.document.getElementById(iframeId);
+    var button = iframe.parentNode.getElementsByClassName("button_addable")[0];
+    if( iframe != null ){
+        iframe.remove();
+    }
+    if( button != null ) {
+        button.innerHTML = button.getAttribute('data-innerhtml');
+    }
+    
+}
+    
+</script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,27 @@
+<div class="formset">
+{{ model.management_form }}
+
+<div class="formFieldWrapper">
+    <div class="formFieldErrors">
+        {{ formfield.errors }}
+    </div>
+    <div class="formFieldLabel">
+        {{ formfield.label_tag }}
+    </div>
+    <div class="formFieldWidget">
+        {{ formfield }}
+    </div>
+    <div class="formFieldHelp">
+        {{ formfield.help_text }}
+    </div>
+    {% if add_button %}
+        <div class="formAddModel">
+           <button id="button_add_{{ formfield.html_name }}">Add {{ formfield.label }}</button> 
+        </div>
+    {% endif %}
+</div>
+</div>
+
+{% comment %}
+# vim: sts=4 ts=4 sw=4 et ai
+{% endcomment %}

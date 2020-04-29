@@ -1,0 +1,56 @@
+
+<div class="field">
+    <div class="label">Notification Group</div>
+    <div class="value">{% for subobject in object.notification_group.all %}{% if not forloop.first %}, {% endif %}{{ subobject }}{% endfor %}</div>
+</div>
+<div class="field">
+    <div class="label">Job Name</div>
+    <div class="value">{{ object.job_name }}</div>
+</div>
+<div class="field">
+    <div class="label">PO Number</div>
+    <div class="value">{{ object.ponumber }}</div>
+</div>
+<div class="field">
+    <div class="label">Builder</div>
+    <div class="value">{{ object.builder }}</div>
+</div>
+<div class="field">
+    <div class="label">Supplier</div>
+    <div class="value">{{ object.supplier }}</div>
+</div>
+<div class="field">
+    <div class="label">Supplier's PO Number</div>
+    <div class="value">{{ object.sponumber }}</div>
+</div>
+<div class="field">
+    <div class="label">Install?</div>
+    <div class="value">{{ object.do_install }}</div>
+</div>
+<div class="field">
+    <div class="label">Status</div>
+    <div class="value">{% for subobject in object.status.all %}{% if not forloop.first %}, {% endif %}{{ subobject }}{% endfor %}</div>
+</div>
+<div class="field">
+    <div class="label">Location</div>
+    <div class="value">{{ object.location }}</div>
+</div>
+<div class="field">
+    <div class="label">Notes</div>
+    <div class="value">{{ object.notes }}</div>
+</div>
+<div class="field">
+    <div class="label">Date Modified</div>
+    <div class="value">{{ object.mod_date }}</div>
+</div>
+<div><h2>History</h2></div>
+{% regroup object.history.all by date|date:"Y M d h:i" as dates_list %}
+  {% for date in dates_list %}
+<div>
+    {{ date.grouper }}:
+    {% for his in date.list %}
+      {% if not forloop.first %},{% endif %}
+        {{ his.description }}
+    {% endfor %}
+</div>
+{% endfor %}

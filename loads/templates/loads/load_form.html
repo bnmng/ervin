@@ -1,0 +1,48 @@
+{% extends './_base.html' %}
+{% block content %}
+	<form method="post">
+{% if form.errors %}
+	<!-- Error messaging -->
+	<div id="errors">
+		<div class="inner">
+			<p>There were some errors in the information you entered. Please correct the following:</p>
+			{{ form.non_field_errors }}
+			<ul>
+				{% for field in form %}
+					{% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<!-- /Error messaging -->
+{% endif %}
+
+		{{ form.media }}
+		{% csrf_token %}
+    {% include './_form_field.html' with formfield=form.notification_group %}
+    {% include './_form_field.html' with formfield=form.job_name %}
+    {% include './_form_field.html' with formfield=form.ponumber %}
+    {% include './_form_field.html' with formfield=form.builder %}
+    {% include './_form_field.html' with formfield=form.supplier %}
+    {% include './_form_field.html' with formfield=form.sponumber %}
+    {% include './_form_field.html' with formfield=form.do_install %}
+    {% include './_form_field.html' with formfield=form.status %}
+    {% include './_form_field.html' with formfield=form.location %}
+    {% include './_form_field.html' with formfield=form.notes %}
+    {% include './_form_field.html' with formfield=form.mod_date %}
+    <div class="formFieldWrapper">
+      <div class="formFieldLabel">
+        {{ form.send_mail.label_tag }}
+      </div>
+    </div>
+    <div class="formFieldWrapper">
+      <div class="formFieldLabel">
+      </div>
+      <div class="formFieldWrapper">
+        <button type="submit" id="button_submit">Save</button>
+      </div>
+    </div>
+	</form>
+{% endblock %}
+
+

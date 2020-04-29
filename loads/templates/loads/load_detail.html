@@ -1,0 +1,11 @@
+{% extends './_base.html' %}
+{% block content %}
+
+	<div>
+		<a href="mailto:{{ email_to|urlencode }}?subject={{ email_subject|urlencode }}&body={{ email_body|urlencode }}">Send Email</a>
+	</div>
+	<div><a href="{% url 'load-update' object.pk %}">Edit</a></div>
+	<div><a href="{% url 'load-delete' object.pk %}">Delete</a></div>
+
+	{% include './load_detail_include.html' %}
+{% endblock %}

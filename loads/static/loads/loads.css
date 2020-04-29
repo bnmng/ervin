@@ -1,0 +1,10 @@
+.field {
+  display:flex;
+}
+.field .label {
+  width:20%;
+}
+.field .value {
+  width:80%;
+}
+

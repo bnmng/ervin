@@ -1,0 +1,28 @@
+{% extends 'ervin/_base.html' %}
+{% load static %}
+{% block content %}
+<div id="content">
+    <div class="separate" style="background-color:white; text-align:center; ">
+        <div id="directions" style="text-align:left">
+
+            <h3>From North of Suffolk</h3>
+            <ul>
+            <li>Take I64 or I264 to US13/58/460 to Suffolk.</li>
+            <li>Avoid the business routes and avoid exits for Downtown Suffolk. Stay on regular US13/58/460.</li>
+            <li>After about 13 miles, take the right exit to stay on US13 South towards Ahoskie and Edenton.</li>
+            <li>After about 3 miles, exit right again to stay on US13 South.</li>
+            <li>Drive for about one mile.</li>
+            <li>Turn right into the driveway immediately after the red, arch-roofed building.</li>
+            </ul>
+            <center> <img src="{% static 'home/driveway.jpg' %}" width='50%'/></center>
+            <h3>From South of Suffolk</h3>
+            <ul>
+            <li>Take US13 North to Suffolk.</li>
+            <li>About 13 miles North of the Virginia/North Carolina border, slow down as you pass Airport Rd and Old Somerton Road</li>
+            <li>Make the first left turn after Colony Tire to your left, before the red, arch-roofed building.</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

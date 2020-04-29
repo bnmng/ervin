@@ -1,0 +1,178 @@
+body {
+    background-color:#030;
+    color:white;
+}
+div#container {
+    width:1000px;
+    margin: 0 auto;
+}
+div#page-header {
+    width:100%;
+    overflow:auto;
+}
+div#header-logo {
+    float:left; 
+   width:20%;
+    text-align:center;
+}
+div#header-title {
+    clear:right; 
+    width:80%;
+    text-align:center;
+    display:inline-block;
+}
+
+div#content {
+    background-color:white;
+    box-shadow: inset 0 0 20px #000033;
+    padding:1em;
+    color:#030;
+}
+
+div#mainmenu {
+  display:flex;
+  justify-content:space-around;
+  width:100%;
+  overflow:auto;
+  border-top:1px solid green;
+  background-color:#0f0;
+}
+
+div#submenu {
+  display:flex;
+  justify-content:space-around;
+  width:100%;
+  overflow:auto;
+  margin-top:0;
+  border-top:1px solid green;
+  background-color:#0f0;
+}
+div.incontentmenu {
+    width:100%;
+    overflow:auto;
+    margin-top:0;
+    border-top:1px solid green;
+    border-bottom:1px solid green;
+}
+
+
+.menuitem {
+    background-color:#0f0;
+    text-align:center;
+    flex:1 0 1fr;
+    /* float:left; */
+}
+
+.menuitem a {
+    text-decoration:none;
+    color:#030;
+    font-weight:bold;
+}
+
+div.incontentmenu .menuitem a {
+    color:blue;
+}
+
+div#search-form {
+    border-top:1px solid green;
+    border-bottom:1px solid green;
+    background-color:#9f9;
+}
+
+div.datarow {
+    width:100%;
+    overflow:auto;
+}
+div.dataheader {
+    width:100%;
+    overflow:auto;
+    font-weight:bold;
+    background-color:#9f9;
+}
+
+div.datarow:nth-child(even) {
+    background-color:#cfc;
+}
+
+div.datarow div, div.dataheader div {
+    float:left;
+}
+
+div.show-group {
+    overflow:auto;
+    width:100%;
+}
+div.show-label {
+    float:left;
+    width:20%;
+}
+div.show-value {
+    float:left;
+    width:80%;
+}
+div.form-group {
+    width:100%;
+    overflow:auto;
+}
+div.form-controls-control {
+    float:left;
+    width:10%;   
+
+}
+div.separate {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+.width2 {
+    width:2.5%;
+}
+.width5 {
+    width:5%;
+}
+.width7 {
+    width:7.5%;
+}
+.width10 {
+    width:10%;
+}
+.width12 {
+    width:12.5%;
+}
+.width15 {
+    width:15%;
+}
+.width20 {
+    width:20%;
+}
+.width25 {
+    width:25%;
+}
+.width30 {
+    width:30%;
+}
+.width33 {
+    width:33.3%;
+}
+.width40 {
+    width:40%;
+}
+.width50 {
+    width:50%;
+}
+.width60 {
+    width:60%;
+}
+.width70 {
+    width:70%;
+}
+.width80 {
+    width:80%;
+}
+.width90 {
+    width:90%;
+}
+.width100 {
+    width:100%;
+}
+

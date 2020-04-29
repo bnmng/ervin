@@ -1,0 +1,20 @@
+{% extends 'loads/_ajax.html' %}
+{% block content %}
+<form method="POST" id="form">
+{{ form.non_field_errors }}
+{% csrf_token %}
+
+{% include './_form_field.html' with formfield=form.name %}
+{% include './_form_field.html' with formfield=form.notes %}
+
+</form>
+{% endblock %}
+{% block javascript %}
+{{ block.super }}
+<script type="text/javascript">
+  if("{{ success }}"){
+    window.parent.updateSelects(window.frameElement, '{{ object.pk }}', '{{ object }}');
+  }
+</script>
+{% endblock %}
+

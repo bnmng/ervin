@@ -1,0 +1,12 @@
+{% extends './_base.html' %}
+{% block content %}
+
+	<form method="post">
+		{% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+  </form>
+
+  <div><a href="{% url 'load-detail' object.pk %}">Cancel</a></div>
+
+  {% include './load_detail_include.html' %}
+{% endblock %}

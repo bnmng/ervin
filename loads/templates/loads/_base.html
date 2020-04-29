@@ -1,0 +1,20 @@
+{% extends 'ervin/_base.html' %}
+{% load static %}
+{% block subtitle %}
+- Loads
+{% endblock %}
+{% block stylesheets %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'ervin/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'loads/loads.css' %}">
+{% endblock %}
+{% block subheader %}
+- Loads
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block javascript %}
+{% endblock %}
+{% comment %}
+# vim: ai et sts=4 sw=4 ts=4
+{% endcomment %}

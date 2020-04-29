@@ -1,0 +1,11 @@
+<td>
+    {% for value in column.all %}
+        <div>
+        {% if booleanlabels == 'noyes' %}
+          {% if value == True %}Yes{% else %}No{% endif %}
+        {% else %}
+          {{ value }}
+        {% endif %}
+        </div>
+    {% endfor %}        
+</td>

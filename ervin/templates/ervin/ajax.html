@@ -1,0 +1,56 @@
+{% load static %}
+<!doctype HTML>
+<html>
+<head>
+<title>Inventory</title>
+<link rel="stylesheet" type="text/css" href="{% static 'ervin/main.css' %}">
+</head>
+<body>
+{% block content %}
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+function updateSelects( selectsToSet, selectsNotToSet, optionValue, optionInner ) {
+    option = document.createElement('option');
+    option.setAttribute('value', optionValue);
+    option.innerHTML = optionInner;
+
+    var selectNames = selectsNotToSet.split(',');
+    for( s=0; s < selectNames.length; s++ ) {
+        var selectName = selectNames[s].trim();
+        if( '' < selectName ) {
+            var select = window.parent.document.getElementById(selectNames[s]);
+            if(select != null) {
+                select.appendChild(option);
+            }
+        }
+    }
+    optionClone=option.cloneNode(true);
+    optionClone.setAttribute('selected', 'selected');
+    selectNames = selectsToSet.split(',');
+    for( s=0; s < selectNames.length; s++ ) {
+        var selectName = selectNames[s].trim();
+        if( '' < selectName ) {
+            var select = window.parent.document.getElementById(selectNames[s]);
+            if(select != null) {
+                select.appendChild(optionClone);
+            }
+        }
+    }
+}
+function closeMe( iframeId ) {
+    var iframe = window.parent.document.getElementById(iframeId);
+    var button = iframe.parentNode.getElementsByClassName("button_addable")[0];
+    if( iframe != null ){
+        iframe.remove();
+    }
+    if( button != null ) {
+        button.innerHTML = button.getAttribute('data-innerhtml');
+    }
+    
+}
+    
+</script>
+{% endblock %}
+</body>
+</html>

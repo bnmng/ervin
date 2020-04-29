@@ -1,0 +1,258 @@
+{% extends './_base.html' %}
+
+{% block content %}
+    <div id="div_search_form">
+        <h2>Search</h2>
+        <form id="frm_filter">
+            <table>
+                <tr>
+                    <td><label for="chk_filter_clear">Clear All</label></td><td><input type="checkbox" id="chk_filter_clear"></td><td>Clear</td>
+                </tr>
+                {% for paramkey, paramdata  in filter_parameters.items %}
+                    <tr>
+                        <td><label for="filter[{{ paramkey }}][use]">Use {{ paramdata.label }} </label></td><td><input type="checkbox" class="filter_use" name="filter[{{ paramkey }}][use]" {% if paramdata.use == "on" %} checked="checked" {% endif %} ></td>
+                        <td><label for="filter[{{ paramkey }}][operators]">{{ paramdata.label }}</label></td>
+                        <td>
+                            {% if paramdata.operators|length > 1 %}
+                                <select name="filter[{{ paramkey }}][operators]" class="filter_operator">
+                                    {% for optkey, optdata in paramdata.operators.items %}
+                                        <option value="{{ optkey }}" {% if optdata.use == "on" %} selected="selected" {% endif %} >{{ optdata.label }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                {% for optkey, optdata in paramdata.operators.items %}
+                                    <input name="filter[{{ paramkey }}][operators]" type="hidden" value="{{optkey}}"/>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if "select" == paramdata.input.type %}
+                                {% if "multiple" == paramdata.input.multiple %}
+                                    <select name="filter[{{ paramkey }}][value]" multiple="multiple" class="filter_value">
+                                {% else %}
+                                    <select name="filter[{{ paramkey }}][value]" class="filter_value">
+                                    <option value=''>[select one]</option>
+                                {% endif %}
+                                {% if 'model' == paramdata.input.option_type %}
+                                    {% for inputoption in paramdata.input.options %}
+                                    <option value="{{ inputoption.id }}" {% for eachvalue in paramdata.value %} eachvalue="{{ eachvalue }}" {% if inputoption.id|slugify == eachvalue|slugify %} selected="selected" {% endif %} {% endfor %}>
+                                            {{ inputoption }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                            {% else %}
+                                <input name="filter[{{ paramkey }}][value]" value="{{ paramdata.value }}" class="filter_value">
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <table>
+                <tr>
+                    <td>Order by</td>
+                    {% with ''|center:3 as range %}  {% comment %} loop hack https://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates {% endcomment %}
+                    {% for _ in range %}
+                        <td>
+                            <select name="orderby[{{ forloop.counter }}]">
+                                {% for paramkey, paramdata  in orderby_parameters.items %}
+                                    <!-- forloop.counter = {{ forloop.parentloop.counter }} paramdata.use = {{ paramdata.use }} -->
+                                    <option value="{{ paramkey }}" {% if forloop.parentloop.counter == paramdata.use %} selected="selected" {% endif %}>
+                                        {{ paramdata.label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    {% endfor %}
+                    {% endwith %}
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><button type="submit">Search</button></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+           
+        </form>
+    </div>
+    {% if filter_display %}
+    <div>
+        Filtered: {{ filter_display }} <button id="btn_filter_clear">Clear Filter</button> 
+    </div>
+    {% endif %}
+                                
+    <h2>Loads</h2>
+    {% if perms.loads.add_load %}
+        <div class="actions">
+            <a href="{% url 'load-create' %}">Add</a>
+        </div>
+    {% endif %}
+    {% if object_list %}
+
+{% if is_paginated %}
+  <table class="pagination">
+      <tr>
+          <td>
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+    {% else %}
+        &nbsp; 
+    {% endif %}
+          </td>
+          <td>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+    {% else %}
+      &nbsp;
+    {% endif %}
+    </td>
+      </tr>
+  </table>
+{% endif %}
+
+
+
+    <table border>
+        <tr>
+            <td>&nbsp;</td>
+            {% include './_list_head.html' with label='Group' %}
+            {% include './_list_head.html' with label='Job Name' %}
+            {% include './_list_head.html' with label='Builder' %}
+            {% include './_list_head.html' with label='PO Number' %}
+            {% include './_list_head.html' with label='Supplier' %}
+            {% include './_list_head.html' with label='SPO Number' %}
+            {% include './_list_head.html' with label='Install?' %}
+            {% include './_list_head.html' with label='Status' %}
+            {% include './_list_head.html' with label='Location' %}
+            {% include './_list_head.html' with label='Notes' %}
+            {% include './_list_head.html' with label='Mod Date' %}
+            {% for fieldname in additional_field_names %}
+                <th>{{ fieldname }}</th>
+            {% endfor %}
+        </tr>
+        {% for object in object_list %}
+            <tr>
+                <td>{% if perms.loads.view_load %}<a href="{% url 'load-detail' object.id %}">View</a>{% else %}&nbsp;{% endif %}</td>
+                <td>{% for subobject in object.notification_group.all %}{% if not forloop.first %}, {% endif %}{{ subobject }}{% endfor %}</td>
+                {% include './_list_field.html' with column=object.job_name %}
+                {% include './_list_field.html' with column=object.builder %}
+                {% include './_list_field.html' with column=object.ponumber %}
+                {% include './_list_field.html' with column=object.supplier %}
+                {% include './_list_field.html' with column=object.sponumber %}
+                {% include './_list_field.html' with column=object.do_install booleanlabels='noyes' %}
+                {% include './_list_multi_field.html' with column=object.status %}
+                {% include './_list_field.html' with column=object.location %}
+                {% include './_list_field.html' with column=object.notes %}
+                {% include './_list_field.html' with column=object.mod_date %}
+                
+            </tr>
+        {% endfor %}
+    </table>
+
+{% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+
+
+    {% endif %}
+{% endblock %}
+{% block javascript %}
+{{ block.super }}
+<script type="text/javascript">
+    var openSearchDiv = document.createElement('div');
+    openSearchDiv.id = 'div_open_search';
+    openSearchDiv.innerHTML=('<p><a href="#">Open Search Form</a></p>');
+    var searchDiv = document.getElementById('div_search_form');
+    searchDiv.parentNode.insertBefore(openSearchDiv, searchDiv);
+    searchDiv.style.display="none";
+    openSearchDiv.addEventListener('click', function(e) {
+        e.preventDefault();
+        openSearchForm();
+    });
+    function openSearchForm() {
+        var openSearchDiv = document.getElementById('div_open_search');
+        var searchDiv = document.getElementById('div_search_form');
+        if('none'==searchDiv.style.display) {
+            searchDiv.style.display="block";
+            openSearchDiv.innerHTML=('<p><a href="#">Hide Search Form</a></p>');
+        } else {
+            searchDiv.style.display="none";
+            openSearchDiv.innerHTML=('<p><a href="#">Open Search Form</a></p>');
+        }
+
+    }
+    function clearAllFilterUses() {
+        filter_use_checkboxes = document.getElementsByClassName("filter_use");
+        for ( f = 0; f < filter_use_checkboxes.length; f++ ) {
+            filter_use_checkboxes[f].checked = false;
+        }
+        document.getElementById("chk_filter_clear").checked=false;
+    }
+    document.getElementById("chk_filter_clear").addEventListener("click", function(e) {
+        e.preventDefault;
+        clearAllFilterUses();
+    });
+    document.getElementById("btn_filter_clear").addEventListener("click", function(e) {
+        e.preventDefault;
+        clearAllFilterUses();
+        document.getElementById("frm_filter").submit()
+    });
+    function checkFilterUse( filter_use_checkbox ) {
+        filter_use_checkbox.checked="checked";
+    }
+    filter_values = document.getElementsByClassName("filter_value");
+
+    for ( f = 0; f < filter_values.length; f++ ) {
+        filter_values[f].addEventListener("keydown", function(e) {
+            var parent = e.target.parentNode;
+            for( p=0; p<5; p++ ) {
+                filter_use_checkboxes = parent.getElementsByClassName("filter_use");
+                if( 1 == filter_use_checkboxes.length ) {
+                    filter_use_checkboxes[0].checked="checked";
+                    break;
+                }
+                parent = parent.parentNode;
+            }
+        });
+        filter_values[f].addEventListener("click", function(e) {
+            var parent = e.target.parentNode;
+            for( p=0; p<5; p++ ) {
+                filter_use_checkboxes = parent.getElementsByClassName("filter_use");
+                if( 1 == filter_use_checkboxes.length ) {
+                    filter_use_checkboxes[0].checked="checked";
+                    break;
+                }
+                parent = parent.parentNode;
+            }
+        });
+    }
+
+
+        
+</script>
+{% endblock %}
+
+{% comment %}
+vim: ai et sts=4 ts=4 sw=4
+{% endcomment %}

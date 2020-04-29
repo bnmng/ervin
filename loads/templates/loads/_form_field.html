@@ -1,0 +1,20 @@
+{% if formfield.errors %}
+    <div class="formFieldErrors">
+        {{ formfield.errors }}
+    </div>
+{% endif %}
+<div class="formFieldWrapper">
+    <div class="formFieldLabel">
+        {{ formfield.label_tag }}
+    </div>
+    <div class="formFieldWidget">
+        {{ formfield }} 
+    </div>
+    <div class="formFieldHelp">
+        {{ formfield.help_text }}
+    </div>
+</div>
+
+{% comment %}
+# vim: ai et sts=4 sw=4 ts=4
+{% endcomment %}
