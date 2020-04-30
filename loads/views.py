@@ -178,7 +178,28 @@ class LoadList(PermissionRequiredMixin, ListView):
                 if set_default and has_paginate_by:
                     break
 
-        if has_filter:
+        if set_default:
+
+            for filterkey in self.filter_parameter_specs:
+                if 'default' in filter_parameter_specs[filterkey]:
+                    constructed_query_data['filter'][filterkey] = filter_parameter_specs['default']
+
+
+
+#            for r in range(1, 4):
+#                if "orderby[" + str(r) + "]" in get_dict:
+#                    if not 'orderby' in constructed_query_data:
+#                        constructed_query_data['orderby'] = []
+#                    constructed_query_data['orderby'].append(
+#                        get_dict["orderby[" + str(r) + "]"][0]
+#                    )
+
+            # save the query in the UserParameters object
+            constructed_query_json = json.dumps(constructed_query_data)
+            user_parameters.value = constructed_query_json
+            user_parameters.save()
+
+        elif has_filter:
 
             # convert the GET querydict into a regular dictionary
 
